@@ -51,8 +51,6 @@ temp/
 jpeg-9b/
 zlib-1.2.8/
 x64
-VS2015/
-VS2017/
 
 node_modules/
 data/
