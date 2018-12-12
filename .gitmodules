@@ -1,6 +1,7 @@
 [submodule "EasyCL"]
 	path = EasyCL
 	url = https://github.com/hughperkins/EasyCL.git
+    ignore = dirty
 [submodule "clMathLibraries/clBLAS"]
 	path = clMathLibraries/clBLAS
 	url = https://github.com/hughperkins/clBLAS.git

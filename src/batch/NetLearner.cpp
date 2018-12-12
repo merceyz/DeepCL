@@ -69,7 +69,7 @@ VIRTUAL void NetLearner::postEpochTesting() {
     timer.timeCheck("after epoch " + toString(nextEpoch+1));
 //    cout << "annealed learning rate: " << trainBatcher->getLearningRate() <<
     cout << " training loss: " << trainBatcher->getLoss() << endl;
-    cout << " train accuracy: " << trainBatcher->getNumRight() << "/" << trainBatcher->getN() << " " << (trainBatcher->getNumRight() * 100.0f/ trainBatcher->getN()) << "%" << std::endl;
+    cout << " train accuracy: " << trainBatcher->getNumRight() << "/" << trainBatcher->getN() << " " << (trainBatcher->getNumRight() * 100.0f/ trainBatcher->getN()) << "% (" << (trainBatcher->getN() - trainBatcher->getNumRight()) << ")" << std::endl;
     net->setTraining(false);
     testBatcher->run(nextEpoch);
     cout << "test accuracy: " << testBatcher->getNumRight() << "/" << testBatcher->getN() << " " << 

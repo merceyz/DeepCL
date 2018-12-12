@@ -26,6 +26,8 @@ using namespace std;
 #define VIRTUAL virtual
 
 class DeepCL_EXPORT ForwardAuto : public Forward {
+private:
+    Forward **instances;
 public:
 //    EasyCL *cl;
 //    LayerDimensions dim;
@@ -34,8 +36,8 @@ public:
     int num;
     int *milliseconds;
     bool *valid;
-    int chosenIndex;
-    Forward **instances;
+    int chosenIndex;    
+    Forward * ChosenInstance = nullptr;
     int nextIndex;
 
     // [[[cog

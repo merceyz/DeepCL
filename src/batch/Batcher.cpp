@@ -89,11 +89,15 @@ PUBLICAPI bool Batcher::tick(int epoch) {
     }
     int batch = nextBatch;
 //    std::cout << "BatchLearner.tick() batch=" << batch << std::endl;
-    int batchStart = batch * batchSize;
-    int thisBatchSize = batchSize;
+    int64 batchStart = batch * batchSize;
+    int64 batchStart2 = (int64)batch * batchSize;
+    cout << "Before: " << batchStart << endl;
+    cout << "After: " << batchStart2 << endl;
+    int64 thisBatchSize = batchSize;
     if(batch == numBatches - 1) {
         thisBatchSize = N - batchStart;
     }
+    cout << "thisBatchSize" << thisBatchSize << endl;
 //    std::cout << "batchSize=" << batchSize << " thisBatchSize=" << thisBatchSize << " batch=" << batch <<
 //            " batchStart=" << batchStart << " data=" << (void *)data << " labels=" << labels << 
 //            std::endl;

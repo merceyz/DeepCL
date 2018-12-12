@@ -68,8 +68,8 @@ VIRTUAL void BackwardAuto::backward(
                 Timer timer;
                 try {
                     candidate->backward(batchSize, inputDataWrapper, gradOutput, weightsWrapper, gradInput);
-                    milliseconds[thisIndex] = (int)timer.lap();
-                    cout << StatefulTimer::instance()->prefix << "BackwardAuto: kernel " << thisIndex << " " << milliseconds[thisIndex] << "ms" << endl;
+                    milliseconds[thisIndex] = (int)timer.elapsedMicroseconds();
+                    cout << StatefulTimer::instance()->prefix << "BackwardAuto: kernel " << thisIndex << " " << milliseconds[thisIndex] << " microseconds" << endl;
                     return;
                 } catch(runtime_error &e) {
                     cout << StatefulTimer::instance()->prefix << "BackwardAuto: kernel " << thisIndex << " this instance cant be used: " << e.what() << endl;
@@ -93,7 +93,7 @@ VIRTUAL void BackwardAuto::backward(
                 cout << "   backward kernel " << i << ": cannot be used" << endl;
                 continue;
             }
-            cout << "   backward kernel " << i << " time: " << milliseconds[i] << "ms" << endl;
+            cout << "   backward kernel " << i << " time: " << milliseconds[i] << " microseconds" << endl;
             if(bestIndex == -1) {
                 bestIndex = i;
                 bestTime = milliseconds[i];
@@ -111,6 +111,12 @@ VIRTUAL void BackwardAuto::backward(
             throw runtime_error(StatefulTimer::instance()->prefix + "No valid backward implementations found");
         }
     }
+
+	if (chosenIndex != -1 && instances[chosenIndex] == 0)
+	{
+		instances[chosenIndex] = Backward::instanceSpecific(chosenIndex, cl, dim);
+	}
+
 //    cout << "BackwardAuto::backward using instance index: " << chosenIndex << endl;
     instances[chosenIndex]->backward(batchSize, inputDataWrapper, gradOutput, weightsWrapper, gradInput);
 }

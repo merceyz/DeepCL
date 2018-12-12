@@ -25,18 +25,20 @@ using namespace std;
 #define STATIC static
 #define VIRTUAL virtual
 
-class DeepCL_EXPORT BackpropWeightsAuto : public BackpropWeights {
+class DeepCL_EXPORT BackpropWeightsAuto : public BackpropWeights
+{
 public:
-//    EasyCL *cl;
-//    LayerDimensions dim;
-//    ActivationFunction const*fn;
+    //    EasyCL *cl;
+    //    LayerDimensions dim;
+    //    ActivationFunction const*fn;
 
     int num;
     int *milliseconds;
     bool *valid;
+    int *numTries; // how many times did we try this kernel? ignore the first time, since opencl compilation time would be included
     int chosenIndex;
     BackpropWeights **instances;
-    int nextIndex;
+    int currentIndex;
 
     // [[[cog
     // import cog_addheaders
@@ -46,12 +48,11 @@ public:
     BackpropWeightsAuto(EasyCL *cl, LayerDimensions dim);
     VIRTUAL ~BackpropWeightsAuto();
     VIRTUAL void calcGradWeights(
-    int batchSize, CLWrapper *inputDataWrapper, CLWrapper *gradOutput, CLWrapper *weightsWrapper,
-    CLWrapper *gradInput);
+        int batchSize, CLWrapper *inputDataWrapper, CLWrapper *gradOutput, CLWrapper *weightsWrapper,
+        CLWrapper *gradInput);
 
     // [[[end]]]
 
 };
-
 
 

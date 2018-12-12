@@ -92,7 +92,7 @@ TEST( testforward, imagesize2_nopadzeros ) {
 //    int outputSize = 0;
     EasyCL *cl = DeepCLGtestGlobals_createEasyCL();
     for( int i = 1; i <= 4; i++ ) {
-        Forward *forward = Forward::instanceSpecific( 3, cl,
+        Forward *forward = Forward::instanceSpecific(0,3, cl,
             LayerDimensions( numInPlanes, imageSize, numOutPlanes, filterWidth,
             padZeros == 1, false ) );
         float *output = new float[forward->getOutputTotalSize(batchSize)];
@@ -348,7 +348,7 @@ TEST( testforward, test2 ) {
 
     float *biases = 0;
 
-    Forward *forward = Forward::instanceSpecific( 1, cl, dim );
+    Forward *forward = Forward::instanceSpecific(0, 1, cl, dim );
     float *output = new float[forward->getOutputTotalSize(batchSize)];
     forward->forward( batchSize, data, filter1, biases, output );
 
@@ -448,8 +448,8 @@ void compareSpecific( bool debug, int N, int batchSize, LayerDimensions dim, int
     float *output2 = new float[ outputNumElements ];
     
     int numBatches = ( N + batchSize - 1 ) / batchSize;
-    Forward *p1 = Forward::instanceSpecific( instance0, cl, dim );
-    Forward *p2 = Forward::instanceSpecific( instance1, cl, dim );
+    Forward *p1 = Forward::instanceSpecific(0, instance0, cl, dim );
+    Forward *p2 = Forward::instanceSpecific(0, instance1, cl, dim );
 
 //    float *outputtemps[2];
     for( int instance = 0; instance < 2; instance++ ) {
@@ -881,7 +881,7 @@ void testPerf( int instance, int N, int batchSize, LayerDimensions dim ) {
     WeightRandomizer::randomize( biasFilters, biasFiltersAllocated, -0.1f, 0.1f );
 
     EasyCL *cl = DeepCLGtestGlobals_createEasyCL();
-    Forward *p1 = Forward::instanceSpecific( instance, cl, dim );
+    Forward *p1 = Forward::instanceSpecific(0, instance, cl, dim );
     for( int it = 0; it < (N + batchSize - 1 ) / batchSize; it++ ) {
         int thisBatchSize = it < N - 1 ? batchSize : N - batchSize * it;
         float *output1 = new float[p1->getOutputTotalSize(thisBatchSize)];

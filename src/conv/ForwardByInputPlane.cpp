@@ -29,7 +29,7 @@ VIRTUAL void ForwardByInputPlane::forward(int batchSize, CLWrapper *dataWrapper,
     const int maxWorkgroupSize = cl->getMaxWorkgroupSize();
     int maxglobalId = 0;
 
-    int MBAllocRequired = (int) ((long)batchSize * dim.numFilters * dim.outputSizeSquared * dim.numInputPlanes * 4 / 1024 / 1024);
+    int MBAllocRequired = (int) ((int64)batchSize * dim.numFilters * dim.outputSizeSquared * dim.numInputPlanes * 4 / 1024 / 1024);
     if(MBAllocRequired >= cl->getMaxAllocSizeMB()) {
         throw runtime_error("memallocsize too small to use this kernel on this device.  Need: " + 
             toString(MBAllocRequired) + "MB, but only have: " + 

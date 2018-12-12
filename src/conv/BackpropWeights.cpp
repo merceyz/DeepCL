@@ -17,6 +17,8 @@
 #include "BackpropWeightsScratchLarge.h"
 #include "BackpropWeightsIm2Col.h"
 #include "BackpropWeightsAuto.h"
+#include "BackpropWeightsFsword73.h"
+#include "BackpropWeightsFsword73_BatchSize.h"
 
 using namespace std;
 
@@ -46,13 +48,13 @@ STATIC BackpropWeights *BackpropWeights::instance(EasyCL *cl, LayerDimensions di
 //    }
 }
 STATIC int BackpropWeights::getNumImplementations() {
-    return 5;
+    return 7;
 }
 STATIC bool BackpropWeights::plausiblyOptimal(int index, int batchSize, LayerDimensions dim) {
     if(index == 0) { 
         return false;
     }
-    if(index >= 5) {
+    if(index >= 7) {
         return false;
     }
     return true;
@@ -78,6 +80,14 @@ STATIC BackpropWeights *BackpropWeights::instanceSpecific(int idx, EasyCL *cl, L
     }
     if(idx == 4) {
         return new BackpropWeightsIm2Col(cl, layerDimensions);
+    }
+    if (idx == 5)
+    {
+        return new BackpropWeightsFsword73(cl, layerDimensions);
+    }
+    if (idx == 6)
+    {
+        return new BackpropWeightsFsword73_BatchSize(cl, layerDimensions);
     }
     throw std::runtime_error("BackpropWeights::instanceSpecific doesnt handle idx " + toString(idx));
 }

@@ -48,9 +48,9 @@ PUBLIC VIRTUAL void BackwardIm2Col::backward(int batchSize,
     }
     for (int b = 0; b < batchSize; b ++) {
 //        cout << "b=" << b << " numkernels=" << numKernels << endl;
-        long m = dim.outputSizeSquared;
-        long n = dim.inputPlanes * dim.filterSizeSquared;
-        long k = dim.numFilters;
+        int64 m = dim.outputSizeSquared;
+        int64 n = dim.inputPlanes * dim.filterSizeSquared;
+        int64 k = dim.numFilters;
 //        cout << "m=" << m << " k=" << k << " n=" << n << endl;
 
         ClBlasHelper::Gemm(

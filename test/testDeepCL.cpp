@@ -46,7 +46,7 @@ TEST(testDeepCL, basic) {
     cout << "expected number of output: " << resultSize << endl;
 //    int outputSize = 0;
     for( int i = 1; i <= 4; i++ ) {
-        Forward *forward = Forward::instanceSpecific( 3, cl,
+        Forward *forward = Forward::instanceSpecific(0, 3, cl,
             LayerDimensions( numInPlanes, imageSize, numOutPlanes, filterWidth,
             padZeros == 1, false ) );
         float *output = new float[forward->getOutputTotalSize(batchSize)];

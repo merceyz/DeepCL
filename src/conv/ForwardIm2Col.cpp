@@ -51,9 +51,9 @@ PUBLIC VIRTUAL void ForwardIm2Col::forward(int batchSize, CLWrapper *dataWrapper
     for (int b = 0; b < batchSize; b ++) {
         im2Col->im2Col(dataWrapper, b * dim.inputCubeSize, columnsWrapper);
 
-        long m = dim.outputSizeSquared;
-        long n = dim.numFilters;
-        long k = dim.inputPlanes * dim.filterSizeSquared;
+        int64 m = dim.outputSizeSquared;
+        int64 n = dim.numFilters;
+        int64 k = dim.inputPlanes * dim.filterSizeSquared;
 //        cout << "m=" << m << " n=" << n << " k=" << k << endl;
 
         ClBlasHelper::Gemm(

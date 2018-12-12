@@ -105,7 +105,7 @@ VIRTUAL void NetLearnerOnDemand::postEpochTesting() {
     timer.timeCheck("after epoch " + toString(nextEpoch + 1) );
 //    cout << "annealed learning rate: " << learnAction->getLearningRate()
     cout << " training loss: " << learnBatcher->getLoss() << endl;
-    cout << " train accuracy: " << learnBatcher->getNumRight() << "/" << learnBatcher->getN() << " " << (learnBatcher->getNumRight() * 100.0f/ learnBatcher->getN()) << "%" << std::endl;
+    cout << " train accuracy: " << learnBatcher->getNumRight() << "/" << learnBatcher->getN() << " " << (learnBatcher->getNumRight() * 100.0f/ learnBatcher->getN()) << "% (" << (learnBatcher->getN() - learnBatcher->getNumRight()) << ")" << std::endl;
     testBatcher->run(nextEpoch);
 //    int testNumRight = batchLearnerOnDemand.test(testFilepath, fileReadBatches, batchSize, Ntest);
     cout << "test accuracy: " << testBatcher->getNumRight() << "/" << testBatcher->getN() << " " << (testBatcher->getNumRight() * 100.0f / testBatcher->getN()) << "%" << endl;

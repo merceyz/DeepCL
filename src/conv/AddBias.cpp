@@ -30,7 +30,7 @@ VIRTUAL void AddBias::forward(
         ->in(outputSize * outputSize)
         ->inout(outputWrapper)->in(biasWrapper);
     int globalSize = batchSize * numFilters * outputSize * outputSize;
-    int workgroupSize = 64;
+    int workgroupSize = cl->getMaxWorkgroupSize();
     int numWorkgroups = (globalSize + workgroupSize - 1) / workgroupSize;
     kernel->run_1d(numWorkgroups * workgroupSize, workgroupSize);
     cl->finish();

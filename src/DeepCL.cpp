@@ -5,8 +5,6 @@
 #define STATIC
 #define PUBLIC
 
-using namespace easycl;
-
 //DeepCL::DeepCL() :
 //    EasyCL() {
 //}

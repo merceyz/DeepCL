@@ -44,7 +44,7 @@ public:
     STATIC Forward *instanceTest(EasyCL *cl, LayerDimensions layerDimensions);
     STATIC int getNumImplementations();
     STATIC bool plausiblyOptimal(int index, int batchSize, LayerDimensions dim);
-    STATIC Forward *instanceSpecific(int idx, EasyCL *cl, LayerDimensions layerDimensions);
+    STATIC Forward *instanceSpecific(int batchSize, int idx, EasyCL *cl, LayerDimensions layerDimensions);
     STATIC Forward *instanceSpecific(std::string name, EasyCL *cl, LayerDimensions layerDimensions);
     VIRTUAL int getOutputTotalSize(int batchSize);
     VIRTUAL void forward(int batchSize, float *inputData, float *filters, float *biases, float *output);

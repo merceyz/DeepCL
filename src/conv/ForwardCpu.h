@@ -12,8 +12,10 @@
 #define VIRTUAL virtual
 
 class ForwardCpu : public Forward {
+private:
+    int kernelUsed = 0;
+    
 public:
-
     // [[[cog
     // import cog_addheaders
     // cog_addheaders.add()
@@ -21,8 +23,11 @@ public:
     // generated, using cog:
     ForwardCpu(EasyCL *cl, LayerDimensions dim);
     VIRTUAL void forward(int batchSize, CLWrapper *inputDataWrapper, CLWrapper *weightsWrapper, CLWrapper *biasWrapper, CLWrapper *outputWrapper);
-    VIRTUAL float *forward(int batchSize, float *inputData, float *weights, float *bias);
+    VIRTUAL void forwardFC(int batchSize, float * inputData, float * weights, float * bias, float * output);
+    VIRTUAL void forward(int batchSize, float * inputData, float * weights, float * bias, float * output);
 
+    VIRTUAL void forward3x3_3x3(int batchSize, float * inputData, float * weights, float * bias, float * output);
+
+    VIRTUAL void forward3x3(int batchSize, float * inputData, float * weights, float * bias, float * output);
     // [[[end]]]
 };
-

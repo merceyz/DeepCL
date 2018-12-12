@@ -13,6 +13,8 @@
 #include "netdef/NetdefToNet.h"
 #include "activate/ActivationFunction.h"
 #include "weights/WeightsInitializer.h"
+#include "util/StatefulTimer.h"
+#include "util/Timer.h"
 
 using namespace std;
 
@@ -47,6 +49,7 @@ STATIC std::string expandMultipliers(std::string netdef) {
         cout << "remainderString [" << remainderString << "]" << endl;
         string inner = "";
         string postfix = "";
+		
         if(remainderString.substr(0, 1) == "(") {
             // need to find other ')', assume not nested for now...
             size_t rhBracket = remainderString.find(")");
@@ -244,25 +247,29 @@ PUBLICAPI STATIC bool NetdefToNet::createNetFromNetdefCharStar(NeuralNet *net, c
 }
 
 STATIC bool NetdefToNet::createNetFromNetdef(NeuralNet *net, std::string netdef, WeightsInitializer *weightsInitializer) {
-    string netDefLower = toLower(netdef);
-//    cout << "netDefLower [" << netDefLower << "]" << endl;
-    try {
-        netDefLower = expandMultipliers(netDefLower);
-    } catch(runtime_error &e) {
-        cout << e.what() << endl;
-        return false;
-    }
-//    cout << "netDefLower [" << netDefLower << "]" << endl;
-    vector<string> splitNetDef = split(netDefLower, "-");
-    if(netdef != "") {
-        for(int i = 0; i < (int)splitNetDef.size(); i++) {
-            string thisLayerDef = splitNetDef[i];
-//            cout << "thisLayerDef [" << thisLayerDef << "]" << endl;
-            if(!parseSubstring(weightsInitializer, net, thisLayerDef, i == (int)splitNetDef.size() - 1) ) {
-                return false;
-            }
-        }
-    }
-    net->addLayer(SoftMaxMaker::instance());
-    return true;
+	string netDefLower = toLower(netdef);
+	//    cout << "netDefLower [" << netDefLower << "]" << endl;
+	try {
+		netDefLower = expandMultipliers(netDefLower);
+	}
+	catch (runtime_error &e) {
+		cout << e.what() << endl;
+		return false;
+	}
+	//    cout << "netDefLower [" << netDefLower << "]" << endl;
+	vector<string> splitNetDef = split(netDefLower, "-");
+	if (netdef != "") {
+		for (int i = 0; i < (int)splitNetDef.size(); i++) {
+			Timer time;
+			string thisLayerDef = splitNetDef[i];
+			//            cout << "thisLayerDef [" << thisLayerDef << "]" << endl;
+
+			if (!parseSubstring(weightsInitializer, net, thisLayerDef, i == (int)splitNetDef.size() - 1)) {
+				return false;
+			}
+			cout << " Created " << thisLayerDef << ", " << (int)time.lap() << endl;
+		}
+	}
+	net->addLayer(SoftMaxMaker::instance());
+	return true;
 }
